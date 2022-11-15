@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import technigoMembers from "./data/technigo-members.json"
 
 // Defines the port the app will run on. Defaults to 8080, but can be overridden
 // when starting the server. Example command to overwrite PORT env variable value:
@@ -12,8 +13,15 @@ app.use(cors());
 app.use(express.json());
 
 // Start defining your routes here
-app.get("/", (req, res) => {
-  res.send("Hello Technigo!");
+app.get("/members", (req, res) => {
+  res.status(200).json({technigoMembers: technigoMembers});
+});
+
+app.get("/members/:id", (req, res) => {
+  const singleMember = technigoMembers.find((member) => {
+    return member.id === Number(req.params.id);
+  });
+  res.status(200).json(singleMember);
 });
 
 // Start the server
