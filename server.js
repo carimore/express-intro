@@ -13,10 +13,10 @@ app.get("/", (req, res) => {
     });
 
 app.get("/books", (req, res) => {
-  const { tittle } = req.query;
+  const { title } = req.query;
   let books = booksData;
-  if (tittle) {
-    books = books.filter(singleBook => singleBook.tittle.toLowerCase() === tittle.toLowerCase());
+  if (title) {
+    books = books.filter(singleBook => singleBook.title.toLowerCase() === title.toLowerCase());
   }
   res.status(200).json({
     success: true,
@@ -27,7 +27,7 @@ app.get("/books", (req, res) => {
 
 app.get('/books/:id', (req, res) => {
   const singleBook = booksData.find((item) => {
-    return (item.bookID === +req.params.id);
+    return (item.books === +req.params.id);
   });
   console.log(singleBook)
   res.json ({booksData : singleBook})
