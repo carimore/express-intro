@@ -1,4 +1,4 @@
-import express, { request } from "express";
+import express from "express";
 import cors from "cors";
 import booksData from "./data/books.json"
 
@@ -13,15 +13,11 @@ app.get("/", (req, res) => {
     });
 
 app.get("/books", (req, res) => {
-  const { tittle, authors } = req.query;
-  let books = booksData
-  if(authors) {
-    books = books.filter(singleBook => singleBook.authors.toLowerCase() === authors.toLowerCase());
-  }
+  const { tittle } = req.query;
+  let books = booksData;
   if (tittle) {
     books = books.filter(singleBook => singleBook.tittle.toLowerCase() === tittle.toLowerCase());
   }
-  
   res.status(200).json({
     success: true,
     message: "OK",
@@ -31,11 +27,11 @@ app.get("/books", (req, res) => {
 
 app.get('/books/:id', (req, res) => {
   const singleBook = booksData.find((item) => {
-    return (item.id === +req.params.id)
+    return (item.bookID === +req.params.id);
   });
   console.log(singleBook)
   res.json ({booksData : singleBook})
-  if(bookSpecific) {
+  if(singleBook) {
     res.status(200).json({
       success: true,
       message: "OK",
@@ -44,7 +40,7 @@ app.get('/books/:id', (req, res) => {
       }
     });
   } else {
-    response.status(404).json({
+    res.status(404).json({
       success: false,
       message: "Not Found",
       body: {}
